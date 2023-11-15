@@ -18,7 +18,7 @@ import matplotlib
 import matplotlib_inline
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-import pyjwt
+import jwt
 
 st.set_page_config(page_title="Exponento", layout="wide")
 st.title("BUSINESS INTELLIGENCE")
