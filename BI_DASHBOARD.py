@@ -35,13 +35,47 @@ def to_excel(df):
     processed_data = output.getvalue()
     return processed_data
 
-@st.cache_resource
-def load_data():
-    model=pd.read_excel('SOBI_TRAVELS.xlsx')
-    return model
+#@st.cache_resource
+#def load_data():
+    #model=pd.read_excel('SOBI_TRAVELS.xlsx')
+    #return model
 
-df=load_data()
+#df=load_data()
 
+
+params = st.experimental_get_query_params()
+token = params["token"][0]
+
+# Securely decode the token
+try: 
+    decoded = jwt.decode(token, "7bbc53e0ed4e154c1c725a82bf2d499cb1072044a1fb482b61a8d9c838cf2862", algorithms=["HS512"])
+except Exception as e:
+    # If this gives an error, the token is invalid
+    # DONT LOAD THE PAGE, show an error message
+    raise e
+
+companyname = decoded["companyname"]
+companynreg = decoded["companynreg"]
+email = decoded["email"]
+
+# Connect to the database
+cnx = mysql.connector.connect(user="kxqbuwjp_expo", password="J9zjo4e7", host="cyclops.hkdns.host", database="kxqbuwjp_expo")
+cursor = cnx.cursor()
+
+# Get all financial data for this company
+get_financial_data = """
+SELECT * FROM fin1 WHERE companyname = %s AND companynreg = %s
+"""
+cursor.execute(get_financial_data, [companyname, companynreg])
+data = cursor.fetchall()
+
+cols = [col[0] for col in cursor.description]
+
+
+df= pd.DataFrame(data, columns=cols)
+st.dataframe(df)
+
+##############################################################################
 
 startDate = df["date1"].min()
 endDate = df["date1"].max()
