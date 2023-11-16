@@ -58,6 +58,7 @@ token = params["token"][0]
 # Securely decode the token
 try: 
     decoded = jwt.decode(token, secret, algorithms=["HS512"])
+    print(decoded)
     if decoded["iss"] != "Xponento":
         raise Exception("Invalid token")
 except Exception as e:
