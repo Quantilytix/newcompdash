@@ -4,7 +4,7 @@ import subprocess
 import time
 import warnings
 from io import BytesIO
-
+import dotenv
 import jwt
 import matplotlib
 import matplotlib.pyplot as plt
