@@ -1,24 +1,28 @@
-import streamlit as st
-import plotly.express as px
-import pandas as pd
-from io import BytesIO
-from pyxlsb import open_workbook as open_xlsb
-import warnings
-import xlsxwriter 
+import datetime
+import os
 import subprocess
+import time
+import warnings
+from io import BytesIO
+
+import jwt
+import matplotlib
+import matplotlib.pyplot as plt
+import matplotlib_inline
+import mysql.connector
 import numpy as np
 import openpyxl as op
+import pandas as pd
+import plotly.express as px
 import plotly.figure_factory as ff
 import pyarrow as pa
-import time
-import datetime
-from scipy import stats
 import seaborn as sns
-import matplotlib
-import matplotlib_inline
-import matplotlib.pyplot as plt
+import streamlit as st
+import xlsxwriter
+from dotenv import load_dotenv
+from pyxlsb import open_workbook as open_xlsb
+from scipy import stats
 from sklearn.cluster import KMeans
-import jwt
 
 st.set_page_config(page_title="Exponento", layout="wide")
 st.title("BUSINESS INTELLIGENCE")
@@ -45,20 +49,23 @@ def to_excel(df):
 
 #################################################################
 # Get the token from the URL
+load_dotenv()
+secret = os.getenv("SECRET")
+
 params = st.experimental_get_query_params()
 token = params["token"][0]
 
 # Securely decode the token
 try: 
-    decoded = jwt.decode(token, "7bbc53e0ed4e154c1c725a82bf2d499cb1072044a1fb482b61a8d9c838cf2862", algorithms=["HS512"])
+    decoded = jwt.decode(token, secret, algorithms=["HS512"])
 except Exception as e:
     # If this gives an error, the token is invalid
     # DONT LOAD THE PAGE, show an error message
     raise e
 
-companyname = decoded["companyname"]
-companynreg = decoded["companynreg"]
-email = decoded["email"]
+companyname = decoded["payload"]["companyname"]
+companynreg = decoded["payload"]["companynreg"]
+email = decoded["payload"]["email"]
 
 # Connect to the database
 cnx = mysql.connector.connect(user="kxqbuwjp_expo", password="J9zjo4e7", host="cyclops.hkdns.host", database="kxqbuwjp_expo")
