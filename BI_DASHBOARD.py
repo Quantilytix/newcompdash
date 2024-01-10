@@ -72,7 +72,7 @@ companynreg = decoded["payload"]["companynreg"]
 email = decoded["payload"]["email"]
 
 # Connect to the database
-cnx = mysql.connector.connect(user="kxqbuwjp_expo", password="J9zjo4e7", host="cyclops.hkdns.host", database="kxqbuwjp_expo")
+cnx = mysql.connector.connect(user=secret["user"], password=secret["password"], host=secret["host"], database=secret["database"])
 cursor = cnx.cursor()
 
 # Get all financial data for this company
