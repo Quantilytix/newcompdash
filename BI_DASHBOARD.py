@@ -89,7 +89,7 @@ cols = [col[0] for col in cursor.description]
 
 
 df= pd.DataFrame(data, columns=cols)
-st.dataframe(df)
+#st.dataframe(df)
 
 
 
