@@ -74,7 +74,7 @@ email = decoded["payload"]["email"]
 user = st.secrets("user")
 password = st.secrets("password")
 host = st.secrets("host")
-database = st.secrets("host")
+database = st.secrets("database")
 cnx = mysql.connector.connect(user=user, password=password, host=host, database=database)
 cursor = cnx.cursor()
 
