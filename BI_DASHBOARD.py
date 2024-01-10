@@ -49,8 +49,7 @@ def to_excel(df):
 
 #################################################################
 # Get the token from the URL
-load_dotenv()
-secret = os.getenv("SECRET")
+secret = st.secrets["SECRET"]
 
 params = st.experimental_get_query_params()
 token = params["token"][0]
@@ -72,10 +71,10 @@ companynreg = decoded["payload"]["companynreg"]
 email = decoded["payload"]["email"]
 
 # Connect to the database
-user = os.getenv("user")
-password = os.getenv("password")
-host = os.getenv("host")
-database = os.getenv("host")
+user = st.secrets("user")
+password = st.secrets("password")
+host = st.secrets("host")
+database = st.secrets("host")
 cnx = mysql.connector.connect(user=user, password=password, host=host, database=database)
 cursor = cnx.cursor()
 
