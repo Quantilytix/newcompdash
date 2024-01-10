@@ -71,10 +71,10 @@ companynreg = decoded["payload"]["companynreg"]
 email = decoded["payload"]["email"]
 
 # Connect to the database
-user = st.secrets("user")
-password = st.secrets("password")
-host = st.secrets("host")
-database = st.secrets("database")
+user = st.secrets["user"]
+password = st.secrets["password"]
+host = st.secrets["host"]
+database = st.secrets["database"]
 cnx = mysql.connector.connect(user=user, password=password, host=host, database=database)
 cursor = cnx.cursor()
 
